@@ -25,10 +25,26 @@ const linkListeners = () => {
             const pokeNum = singlePokelink.dataset.number;
             const linkResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokeNum}`);
             const linkData = await linkResponse.json();
+
+            document.querySelector('ul').innerHTML = '';
+            console.log(linkData)
             const section = document.querySelector('section');
-            section.innerText = JSON.stringify(linkData, null, 2);
+            section.innerHTML = `<h1>${linkData.name}</h1>`;
+            section.innerHTML += `<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokeNum}.png" />`;
+
+            const button = section.innerHTML += `<br/><button>Go Back</button>`;
+            buttonListener();
         });
     };
+};
+
+const buttonListener = () => {
+    const button = document.querySelector('button');
+    button.addEventListener('click', () => {
+        const sectionReset = document.querySelector('section');
+        sectionReset.innerHTML = '';
+        init();
+    });
 };
 
 const init = async() => {
