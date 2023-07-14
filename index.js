@@ -9,6 +9,7 @@ const render = (pokeArray) => {
     const pokeToLi = pokeArray.map((singlePokemon) => {
         const urlSplit = singlePokemon.url.split('/');
         const pokeID = urlSplit[6]
+
         return `<a href='' data-number='${pokeID}'><li>${singlePokemon.name}</li></a>`;
     }).join('');
     
@@ -26,13 +27,26 @@ const linkListeners = () => {
             const linkResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokeNum}`);
             const linkData = await linkResponse.json();
 
-            document.querySelector('ul').innerHTML = '';
-            console.log(linkData)
-            const section = document.querySelector('section');
-            section.innerHTML = `<h1>${linkData.name}</h1>`;
-            section.innerHTML += `<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokeNum}.png" />`;
+            const ulReset = document.querySelector('ul');
+            ulReset.innerHTML = '';
 
-            const button = section.innerHTML += `<br/><button>Go Back</button>`;
+            const section = document.querySelector('section');
+
+            const h1 = document.createElement('h1');
+            h1.innerText = linkData.name;
+            section.appendChild(h1);
+            
+            const img = document.createElement('img');
+            img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokeNum}.png`;
+            section.appendChild(img);
+
+            const br = document.createElement('br');
+            section.appendChild(br);
+            
+            const button = document.createElement('button');
+            button.innerText = 'Go Back';
+            section.appendChild(button);
+            
             buttonListener();
         });
     };
